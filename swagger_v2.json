@@ -1,0 +1,146 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Ticket Management API",
+    "description": "A sample REST API to manage support tickets",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/tickets": {
+      "get": {
+        "summary": "Get Tickets",
+        "description": "Get all tickets",
+        "operationId": "get_tickets_tickets_get",
+        "responses": {
+          "200": {
+            "description": "List of tickets",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Ticket"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Ticket",
+        "description": "Create a new ticket",
+        "operationId": "create_ticket_tickets_post",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TicketCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created ticket",
+            "schema": {
+              "$ref": "#/definitions/Ticket"
+            }
+          }
+        }
+      }
+    },
+    "/tickets/{ticket_id}": {
+      "get": {
+        "summary": "Get Ticket",
+        "description": "Get a ticket by ID",
+        "operationId": "get_ticket_tickets__ticket_id__get",
+        "parameters": [
+          {
+            "name": "ticket_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Ticket ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A ticket",
+            "schema": {
+              "$ref": "#/definitions/Ticket"
+            }
+          },
+          "404": {
+            "description": "Ticket not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Ticket",
+        "description": "Update a ticket",
+        "operationId": "update_ticket_tickets__ticket_id__put",
+        "parameters": [
+          {
+            "name": "ticket_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Ticket ID"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TicketUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated ticket",
+            "schema": {
+              "$ref": "#/definitions/Ticket"
+            }
+          },
+          "404": {
+            "description": "Ticket not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Ticket": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "title", "description", "status"]
+    },
+    "TicketCreate": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["title", "description"]
+    },
+    "TicketUpdate": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    }
+  }
+}
